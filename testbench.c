@@ -8,16 +8,22 @@ int fib(int n) {
 } 
   
 int main() { 
-
+    int i;
     struct timeval stop, start;
-    gettimeofday(&start, NULL);
+    unsigned long runTimes[10];
 
-    int n = 30;
-    int fibNum = fib(n);
+    for (i = 0; i < 10; ++i){
+        gettimeofday(&start, NULL);
+        int fibNum = fib(30);
+        gettimeofday(&stop, NULL);
+        runTimes[i] = (stop.tv_sec - start.tv_sec) * 1000 + (stop.tv_usec - start.tv_usec) / 1000;
+    }
 
-    gettimeofday(&stop, NULL);
-    printf("took %lu us\n", (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec); 
+    // printf("took %lu ms\n", (stop.tv_sec - start.tv_sec) * 1000 + (stop.tv_usec - start.tv_usec) / 1000); 
 
+    for (i = 0; i < 10; ++i){
+        printf("took %lu ms\n", runTimes[i]);
+    }
 
     return 0; 
 } 
