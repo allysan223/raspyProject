@@ -1,9 +1,9 @@
 #include <stdio.h>
-float systemp, millideg;
-FILE *thermal;
-int n;
 
-int main(){
+int main(void){
+    float systemp, millideg;
+    FILE *thermal;
+    int n;
 
     thermal = fopen("/sys/class/thermal/thermal_zone0/temp","r");
     n = fscanf(thermal,"%f",&millideg);
