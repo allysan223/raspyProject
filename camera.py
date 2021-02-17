@@ -6,7 +6,8 @@ import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 def button_callback(channel): #callback will run in another thread when event detected
     print("Button was pushed!")
     takePhoto()
-    print("Photo saved!")
+    print("Photo saved
+    !")
 
 def takePhoto():
     #Start camera preview
