@@ -5,7 +5,12 @@ import cv2
 def preparePhoto():
     img = cv2.imread('pics/image.jpg', cv2.IMREAD_UNCHANGED)
     print('Original Dimensions : ',img.shape)
-    scale_percent = 26.7 # percent of original size, width max 384. 385 too big
+    scale_percent = 10 # percent of original size, width max 384. 385 too big
+    while(int(img.shape[0] * scale_percent / 100) < 384.1):
+        scale_percent += 1
+        # print('percent scaled : ',scale_percent)
+        # print('width : ',int(img.shape[0] * scale_percent / 100))
+    scale_percent -= 1
     width = int(img.shape[1] * scale_percent / 100)
     height = int(img.shape[0] * scale_percent / 100)
     dim = (width, height)
@@ -15,6 +20,7 @@ def preparePhoto():
     resized = cv2.rotate(resized, cv2.cv2.ROTATE_90_CLOCKWISE) 
     cv2.imwrite("pics/resize.png", resized) 
     print('Resized Dimensions : ',resized.shape)
+    
 
 def printPhoto():
     p = printer.File("/dev/usb/lp0")
