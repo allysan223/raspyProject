@@ -4,6 +4,10 @@ import sys
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import printer
 
+#sudo nano /home/pi/.bashrc - works but camera error
+#sudo nano /etc/xdg/lxsession/LXDE/autostart, @usr/bin/python3 /home/pi/raspyProject/camera.py 
+#sudo crontab -e
+
 def button_callback(channel): #callback will run in another thread when event detected
     print("Button was pushed!")
     takePhoto()
@@ -14,11 +18,19 @@ def takePhoto():
     camera.start_preview()
     #Sleep for atealst 2 seconds to allow sensors to sense light exposure
     sleep(2)
-    #take photo
-    camera.capture('/home/pi/raspyProject/pics/image.jpg')
-    camera.stop_preview()
-    printer.preparePhoto()
-    printer.printPhoto()
+    if (GPIO.input(10)):
+        #take photo
+        for _ in range(2):
+            GPIO.output(12,GPIO.LOW)
+            sleep(0.2)
+            GPIO.output(12,GPIO.HIGH)
+            sleep(0.2) 
+        camera.capture('/home/pi/raspyProject/pics/image.jpg')
+        camera.stop_preview()
+        printer.preparePhoto()
+        printer.printPhoto()
+    else:
+        camera.stop_preview()
 
 #Initialize GPIO pins
 GPIO.setwarnings(False) # Ignore warning for now

@@ -24,7 +24,7 @@ def preparePhoto():
 
 def printPhoto():
     p = printer.File("/dev/usb/lp0")
-    p.text("Test print")
+    #p.text("Test print")
     #p.barcode('1324354657687', 'EAN13', 64, 2, '', '')
     print("barcode")
     #p.image("pics/house.jpg")
