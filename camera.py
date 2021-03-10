@@ -4,22 +4,26 @@ import sys
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import printer
 
+#TODO: Start script on boot
 #sudo nano /home/pi/.bashrc - works but camera error
 #sudo nano /etc/xdg/lxsession/LXDE/autostart, @usr/bin/python3 /home/pi/raspyProject/camera.py 
 #sudo crontab -e
 
+# This funtion is a callback for when the trigger button is pressed
 def button_callback(channel): #callback will run in another thread when event detected
     print("Button was pushed!")
     takePhoto()
     print("Photo saved!")
 
+# This function takes a photo and sends to printer
 def takePhoto():
     #Start camera preview
     camera.start_preview()
     #Sleep for atealst 2 seconds to allow sensors to sense light exposure
     sleep(2)
+    #Take photo only if cammer trigger has been pressed for 2 seconds, else dont take photo.
     if (GPIO.input(10)):
-        #take photo
+        #blink LED to indicate photo will be taken
         for _ in range(2):
             GPIO.output(12,GPIO.LOW)
             sleep(0.2)
@@ -33,7 +37,7 @@ def takePhoto():
         camera.stop_preview()
 
 #Initialize GPIO pins
-GPIO.setwarnings(False) # Ignore warning for now
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
 #Initialize Button
 GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) #PUD_DOWN# Set pin 10 to be an input pin and set initial value to be pulled low (off)

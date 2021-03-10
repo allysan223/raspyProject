@@ -1,7 +1,8 @@
 from escpos import printer
 from escpos.printer import Usb
 import cv2
- 
+
+#This funtion rescales photo that was taken from picamera to send to printer. 
 def preparePhoto():
     img = cv2.imread('pics/image.jpg', cv2.IMREAD_UNCHANGED)
     print('Original Dimensions : ',img.shape)
@@ -21,19 +22,16 @@ def preparePhoto():
     cv2.imwrite("pics/resize.png", resized) 
     print('Resized Dimensions : ',resized.shape)
     
-
+#This funtion prints the image to thermal printer.
 def printPhoto():
+    #set printer
     p = printer.File("/dev/usb/lp0")
     #p.text("Test print")
     #p.barcode('1324354657687', 'EAN13', 64, 2, '', '')
-    print("barcode")
-    #p.image("pics/house.jpg")
-    p.image("pics/resize.png")
-
-    print("image printed")
+    p.image("pics/resize.png") #print image
     #p.cut()
 
-
+#Use this to write directly to printer.
 # with open('/dev/usb/lp0', 'wb') as printer:
 #     printer.write("1234567890123456789012345678901234567890\n")
 #     printer.write("Line 2\n")
